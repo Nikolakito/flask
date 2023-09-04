@@ -5,7 +5,13 @@
   <h1>minipekkaAÑA</h1>
   <ul>
     {% if g.user %}
-    <li><span>{{ g.user['username'] }}({{ g.user['email'] }})</span></li>
+    <li>
+      <span
+        ><a class="action" href="{{ url_for('blog.emailupdate') }}">
+          {{ g.user['username'] }}({{ g.user['email'] }})
+        </a></span
+      >
+    </li>
     <li><a href="{{ url_for('auth.logout') }}">Cerrar sesión</a> {% else %}</li>
 
     <li><a href="{{ url_for('auth.register') }}">Registrarse</a></li>

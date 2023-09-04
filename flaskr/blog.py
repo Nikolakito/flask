@@ -12,7 +12,7 @@ bp = Blueprint('blog', __name__)
 def index():
     db = get_db()
     posts = db.execute(
-        'SELECT p.id, title, body, created, author_id, username'
+        'SELECT p.id, title, body, created, author_id, username, email'
         ' FROM post p JOIN user u ON p.author_id = u.id'
         ' ORDER BY created DESC'
     ).fetchall()
@@ -94,3 +94,29 @@ def delete(id):
     db.execute('DELETE FROM post WHERE id = ?', (id,))
     db.commit()
     return redirect(url_for('blog.index'))
+
+
+@bp.route('/updateemail', methods=('GET', 'POST'))
+@login_required
+def emailupdate():
+    id=g.user["id"]
+    if request.method == 'POST':
+        newemail = request.form['newEmail']
+        error = None
+
+        if not newemail:
+            error = 'Falta el nuevo email'
+
+        if error is not None:
+            flash(error)
+        else:
+            db = get_db()
+            db.execute(
+                'UPDATE user SET email = ?'
+                ' WHERE id = ?',
+                (newemail,  id)
+            )
+            db.commit()
+            return redirect(url_for('blog.index'))
+
+    return render_template('auth/updemail.html')
