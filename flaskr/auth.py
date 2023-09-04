@@ -23,7 +23,7 @@ def register():
             error = 'Se requiere el usuario.'
         elif not password:
             error = 'Se requiere la contraseña.'
-        elif password==passwordTest:
+        elif password!=passwordTest:
             error = 'Verifique las contraseñas.'
         
 
