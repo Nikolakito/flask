@@ -6,12 +6,17 @@
   <input
     name="newEmail"
     id="newEmail"
-    value="{{ request.form['email'] or g.user['email'] }} (email actual)"
+    placeholder="{{ request.form['email'] or g.user['email'] }} (email actual)"
     required
   />
   <input type="submit" value="Cambiar" />
 </form>
 <form action="{{ url_for('auth.delUser')}}" method="post">
-  <input type="submit" id="delUser" value="Borrar Usuario" />
+  <input
+    type="submit"
+    id="delUser"
+    value="Borrar Usuario"
+    onclick="return confirm('Are you sure?');"
+  />
 </form>
 {% endblock %}
