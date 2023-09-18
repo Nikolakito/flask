@@ -96,27 +96,4 @@ def delete(id):
     return redirect(url_for('blog.index'))
 
 
-@bp.route('/updateemail', methods=('GET', 'POST'))
-@login_required
-def emailupdate():
-    id=g.user["id"]
-    if request.method == 'POST':
-        newemail = request.form['newEmail']
-        error = None
 
-        if not newemail:
-            error = 'Falta el nuevo email'
-
-        if error is not None:
-            flash(error)
-        else:
-            db = get_db()
-            db.execute(
-                'UPDATE user SET email = ?'
-                ' WHERE id = ?',
-                (newemail,  id)
-            )
-            db.commit()
-            return redirect(url_for('blog.index'))
-
-    return render_template('auth/updemail.html')

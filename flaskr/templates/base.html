@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<title>{% block title %}{% endblock %} - Flaskr</title>
+<title>{% block title %}{% endblock %} minipekkaAÑA</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 <nav>
   <h1>minipekkaAÑA</h1>
@@ -7,7 +7,7 @@
     {% if g.user %}
     <li>
       <span
-        ><a class="action" href="{{ url_for('blog.emailupdate') }}">
+        ><a class="action" href="{{ url_for('auth.chEmail') }}">
           {{ g.user['username'] }}({{ g.user['email'] }})
         </a></span
       >

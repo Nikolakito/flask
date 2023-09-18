@@ -1,14 +1,17 @@
 {% extends 'base.html' %} {% block header %}
-<h1>{% block title %}Edit "{{ post['title'] }}"{% endblock %}</h1>
+<h1>{% block title %}Cambiar Email{% endblock %}</h1>
 {% endblock %} {% block content %}
 <form method="post">
   <label for="newEmail">Cambiar email</label>
   <input
     name="newEmail"
     id="newEmail"
-    value="{{ request.form['email'] or g.user['email'] }}"
+    value="{{ request.form['email'] or g.user['email'] }} (email actual)"
     required
   />
-  <input type="submit" value="Save" />
+  <input type="submit" value="Cambiar" />
+</form>
+<form action="{{ url_for('auth.delUser')}}" method="post">
+  <input type="submit" id="delUser" value="Borrar Usuario" />
 </form>
 {% endblock %}

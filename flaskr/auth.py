@@ -38,13 +38,54 @@ def register():
                 )
                 db.commit()
             except db.IntegrityError:
-                error = f"User {username} is already registered."
+                error = f"El usuario {username} ya está registrado."
             else:
                 return redirect(url_for("auth.login"))
 
         flash(error)
 
     return render_template('auth/register.html')
+@bp.route('/updemail', methods=('GET', 'POST'))
+def chEmail():
+    if request.method == 'POST':
+        error = None
+        email = request.form['newEmail']
+        db = get_db()
+        if not email: error = "Se requiere email."
+    
+        if error is None:
+                
+            db.execute(
+                "UPDATE user SET email = ? WHERE id = ?",
+                (email, g.user["id"]),
+            )
+            db.commit()
+            return redirect(url_for('index'))
+
+
+    
+    return render_template('auth/updemail.html')
+
+@bp.route('/deluser', methods=('GET', 'POST'))
+def delUser():
+    if request.method == 'POST':
+        
+        error= None
+        db = get_db()
+    
+        if error is None:
+                
+            db.execute(
+                "DELETE FROM user WHERE id = ?",
+                (g.user["id"],)
+            )
+            db.commit()
+            session.clear()
+            return redirect(url_for('index'))
+
+
+    
+    return render_template('auth/updemail.html')
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
@@ -69,7 +110,7 @@ def login():
 
         flash(error)
 
-    return render_template('auth/login.html')
+    
 @bp.before_app_request
 def load_logged_in_user():
     user_id = session.get('user_id')
